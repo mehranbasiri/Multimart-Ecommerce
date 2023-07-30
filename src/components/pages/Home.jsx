@@ -8,9 +8,13 @@ import heroImg from "../../assets/images/hero-img.png";
 import Services from "../../services/Services";
 import ProductList from "../UI/ProductList";
 import products from "../../assets/data/products";
+import counterImg from "../../assets/images/counter-timer-img.png";
+import Clock from "../UI/Clock";
 const Home = () => {
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [bestSalesProducts, setBestSalesProducts] = useState([]);
+  const [mobileproducts, setMobileProducts] = useState([]);
+  const [wirelessProducts, setWirelessProducts] = useState([]);
   const year = new Date().getFullYear();
 
   useEffect(() => {
@@ -21,8 +25,16 @@ const Home = () => {
     const filterdBestSalesProducts = products.filter(
       (item) => item.category === "sofa"
     );
+    const filterdMobileProducts = products.filter(
+      (item) => item.category === "mobile"
+    );
+    const filterdWirelessProducts = products.filter(
+      (item) => item.category === "wireless"
+    );
     setTrendingProducts(filterdTrendingProducts);
     setBestSalesProducts(filterdBestSalesProducts);
+    setMobileProducts(filterdMobileProducts);
+    setWirelessProducts(filterdWirelessProducts);
   }, []);
 
   return (
@@ -73,6 +85,39 @@ const Home = () => {
               <h2 className="section__title">Best Sales</h2>
             </Col>
             <ProductList data={bestSalesProducts} />
+          </Row>
+        </Container>
+      </section>
+      <section className="timer__count">
+        <Container>
+          <Row>
+            <Col lg="6" md="6">
+              <div className="clock__top-content">
+                <h4 className="text-white fs-6 mb-2">Limited offers</h4>
+                <h3 className="text-white fs-5 mb-3">Quality Armichair</h3>
+              </div>
+              <Clock />
+              <motion.button
+                whileTap={{ scale: 1.2 }}
+                className="buy__btn store__btn mt-4"
+              >
+                <Link to="/shop">Visit Store</Link>
+              </motion.button>
+            </Col>
+            <Col lg="6" md="6" className="text-end">
+              <img src={counterImg} alt="" />
+            </Col>
+          </Row>
+        </Container>
+      </section>
+      <section className="new__arrivals">
+        <Container>
+          <Row>
+            <Col lg="12" className="text-center">
+              <h2 className="section__title">New Arrivals</h2>
+            </Col>
+            <ProductList data={mobileproducts} />
+            <ProductList data={wirelessProducts} />
           </Row>
         </Container>
       </section>
