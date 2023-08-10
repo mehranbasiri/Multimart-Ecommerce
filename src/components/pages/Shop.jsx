@@ -5,8 +5,12 @@ import { Container, Row, Col } from "reactstrap";
 import "../../styles/Shop.css";
 import products from "../../assets/data/products";
 import ProductList from "../../components/UI/ProductList";
+
+
 const Shop = () => {
   const [productsData, setProductsData] = useState(products);
+ 
+ 
   const handleFilter = (e) => {
     const filterValue = e.target.value;
     if (filterValue === "sofa") {
