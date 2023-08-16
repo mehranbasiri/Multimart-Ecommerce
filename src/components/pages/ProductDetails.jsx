@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { useParams } from "react-router-dom";
 import products from "../../assets/data/products";
@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import ProductList from "../UI/ProductList";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../redux/slices/cartSlice";
-import Toast from "reactstrap";
+
 import { toast } from "react-toastify";
 const ProductDetails = () => {
   const { id } = useParams();
@@ -35,6 +35,14 @@ const ProductDetails = () => {
     e.preventDefault();
     const reviewUserName = reviewUser.current.value;
     const reviewUserMsg = reviewMsg.current.value;
+
+    const reviewObj = {
+      author: reviewUserName,
+      text: reviewUserMsg,
+      rating,
+    };
+    console.log(reviewObj);
+    toast.success("Review Submited");
   };
 
   const addToCart = () => {
@@ -48,6 +56,10 @@ const ProductDetails = () => {
     );
     toast.success("product added seccessfully");
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [product]);
 
   return (
     <Helmett title={productName}>
@@ -63,19 +75,19 @@ const ProductDetails = () => {
                 <h2>{productName}</h2>
                 <div className="product__rating d-flex align-items-center gap-5 mb-4">
                   <div>
-                    <span onClick={() => setrating(1)}>
+                    <span>
                       <i class="ri-star-s-fill"></i>
                     </span>
-                    <span onClick={() => setrating(2)}>
+                    <span>
                       <i class="ri-star-s-fill"></i>
                     </span>{" "}
-                    <span onClick={() => setrating(3)}>
+                    <span>
                       <i class="ri-star-s-fill"></i>
                     </span>{" "}
-                    <span onClick={() => setrating(4)}>
+                    <span>
                       <i class="ri-star-s-fill"></i>
                     </span>{" "}
-                    <span onClick={() => setrating(5)}>
+                    <span>
                       <i class="ri-star-half-s-line"></i>
                     </span>
                   </div>
@@ -144,38 +156,60 @@ const ProductDetails = () => {
                           <input
                             type="text"
                             placeholder="Enter Name"
-                            ref={reviewUser}
+                              ref={reviewUser}
+                              required
                           />
                         </div>
+
+                        <div className="form__group d-flex align-items-center gap-5 rating__group">
+                          <motion.span
+                            whileTap={{ scale: 1.2 }}
+                            onClick={() => setrating(1)}
+                          >
+                            1<i class="ri-star-s-fill"></i>
+                          </motion.span>
+                          <motion.span
+                            whileTap={{ scale: 1.2 }}
+                            onClick={() => setrating(2)}
+                          >
+                            2<i class="ri-star-s-fill"></i>
+                          </motion.span>
+                          <motion.span
+                            whileTap={{ scale: 1.2 }}
+                            onClick={() => setrating(3)}
+                          >
+                            3<i class="ri-star-s-fill"></i>
+                          </motion.span>
+                          <motion.span
+                            whileTap={{ scale: 1.2 }}
+                            onClick={() => setrating(4)}
+                          >
+                            4<i class="ri-star-s-fill"></i>
+                          </motion.span>
+                          <motion.span
+                            whileTap={{ scale: 1.2 }}
+                            onClick={() => setrating(5)}
+                          >
+                            5<i class="ri-star-s-fill"></i>
+                          </motion.span>
+                        </div>
+                        <div className="form__group">
+                          <textarea
+                            type="text"
+                            rows={4}
+                            ref={reviewMsg}
+                            placeholder="Review Message..."
+                          required
+                            />
+                        </div>
+                        <motion.button
+                          whileTap={{ scale: 1.2 }}
+                          type="submit"
+                          className="buy__btn"
+                        >
+                          Submit
+                        </motion.button>
                       </form>
-                      <div className="form__group d-flex align-items-center gap-5">
-                        <span>
-                          1<i class="ri-star-s-fill"></i>
-                        </span>
-                        <span>
-                          2<i class="ri-star-s-fill"></i>
-                        </span>
-                        <span>
-                          3<i class="ri-star-s-fill"></i>
-                        </span>
-                        <span>
-                          4<i class="ri-star-s-fill"></i>
-                        </span>
-                        <span>
-                          5<i class="ri-star-s-fill"></i>
-                        </span>
-                      </div>
-                      <div className="form__group">
-                        <textarea
-                          type="text"
-                          rows={4}
-                          ref={reviewMsg}
-                          placeholder="Review Message..."
-                        />
-                      </div>
-                      <button type="submit" className="buy__btn">
-                        Submit
-                      </button>
                     </div>
                   </div>
                 </div>
