@@ -10,7 +10,9 @@ import ProductList from "../UI/ProductList";
 import products from "../../assets/data/products";
 import counterImg from "../../assets/images/counter-timer-img.png";
 import Clock from "../UI/Clock";
+import useGetData from "../../custom-hooks/useGetData";
 const Home = () => {
+  const { data: products, loading } = useGetData("products");
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [bestSalesProducts, setBestSalesProducts] = useState([]);
   const [mobileproducts, setMobileProducts] = useState([]);
@@ -40,7 +42,7 @@ const Home = () => {
     setMobileProducts(filterdMobileProducts);
     setWirelessProducts(filterdWirelessProducts);
     setPopularProducts(filteredPopularProducts);
-  }, []);
+  }, [products]);
 
   return (
     <Helmett title={"Home"}>
@@ -79,7 +81,11 @@ const Home = () => {
             <Col lg="12" className="text-center">
               <h2 className="section__title">Trending Products</h2>
             </Col>
-            <ProductList data={trendingProducts} />
+            {loading ? (
+              <h5 className="fw-bold">Loading...</h5>
+            ) : (
+              <ProductList data={trendingProducts} />
+            )}
           </Row>
         </Container>
       </section>
@@ -89,7 +95,11 @@ const Home = () => {
             <Col lg="12" className="text-center">
               <h2 className="section__title">Best Sales</h2>
             </Col>
-            <ProductList data={bestSalesProducts} />
+            {loading ? (
+              <h5 className="fw-bold">Loading...</h5>
+            ) : (
+              <ProductList data={bestSalesProducts} />
+            )}
           </Row>
         </Container>
       </section>
@@ -97,7 +107,7 @@ const Home = () => {
         <Container>
           <Row>
             <Col lg="6" md="12" className="count__down-col">
-              <div className="clock__top-content" >
+              <div className="clock__top-content">
                 <h4 className="text-white fs-6 mb-2">Limited offers</h4>
                 <h3 className="text-white fs-5 mb-3">Quality Armichair</h3>
               </div>
@@ -109,11 +119,7 @@ const Home = () => {
                 <Link to="/shop">Visit Store</Link>
               </motion.button>
             </Col>
-            <Col
-              lg="6"
-              md="12"
-              className="text-end counter__img"
-            >
+            <Col lg="6" md="12" className="text-end counter__img">
               <img src={counterImg} alt="" />
             </Col>
           </Row>
@@ -125,8 +131,16 @@ const Home = () => {
             <Col lg="12" className="text-center mb-5">
               <h2 className="section__title">New Arrivals</h2>
             </Col>
-            <ProductList data={mobileproducts} />
-            <ProductList data={wirelessProducts} />
+            {loading ? (
+              <h5 className="fw-bold">Loading...</h5>
+            ) : (
+              <ProductList data={mobileproducts} />
+            )}
+            {loading ? (
+              <h5 className="fw-bold">Loading...</h5>
+            ) : (
+              <ProductList data={wirelessProducts} />
+            )}
           </Row>
         </Container>
       </section>
@@ -136,7 +150,11 @@ const Home = () => {
             <Col lg="12" className="text-center mb-5">
               <h2 className="section__title">Popular in Category</h2>
             </Col>
-            <ProductList data={popularProducts} />
+            {loading ? (
+              <h5 className="fw-bold">Loading...</h5>
+            ) : (
+              <ProductList data={popularProducts} />
+            )}
           </Row>
         </Container>
       </section>

@@ -9,16 +9,31 @@ import { motion } from "framer-motion";
 import ProductList from "../UI/ProductList";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../redux/slices/cartSlice";
-
+import useGetData from "../../custom-hooks/useGetData";
 import { toast } from "react-toastify";
+import { db } from "../../firebase.config";
+import { doc, getDoc } from "firebase/firestore";
 const ProductDetails = () => {
+  const [product, setProduct] = useState({});
   const { id } = useParams();
-  const product = products.find((item) => item.id === id);
+  // const product = products.find((item) => item.id === id);
   const [tab, setTab] = useState("desc");
   const [rating, setrating] = useState(null);
   const dispatch = useDispatch();
   const reviewUser = useRef("");
   const reviewMsg = useRef("");
+  const { data: products } = useGetData("products");
+  const docRef = doc(db, "products", id);
+  useEffect(() => {
+    const getProduct = async () => {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setProduct(docSnap.data());
+      } else {
+      }
+    };
+    getProduct();
+  }, []);
   const {
     imgUrl,
     productName,
@@ -156,8 +171,8 @@ const ProductDetails = () => {
                           <input
                             type="text"
                             placeholder="Enter Name"
-                              ref={reviewUser}
-                              required
+                            ref={reviewUser}
+                            required
                           />
                         </div>
 
@@ -199,8 +214,8 @@ const ProductDetails = () => {
                             rows={4}
                             ref={reviewMsg}
                             placeholder="Review Message..."
-                          required
-                            />
+                            required
+                          />
                         </div>
                         <motion.button
                           whileTap={{ scale: 1.2 }}
